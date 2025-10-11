@@ -4,16 +4,6 @@ const server = express();
 server.use(express.json);
 const port = 3000;
 
-let productsList = [
-    {
-        id: 1,
-        name: "morango",
-        price: 10.00,
-        quantity: 4
-
-    },
-];
-
 server.get("/products", (request, response) => {
     response.json(productsList);
 });
