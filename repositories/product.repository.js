@@ -10,7 +10,13 @@ let productsList = [
 
 class ProductRepository {
     findAll(){
-        return productsList
+
+    }
+
+    findByName(name) {
+        const product = productsList.find(
+            product => product.name.toLowerCase() === name.newLoweCase
+        );
     }
 
     create(newProduct){

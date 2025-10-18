@@ -8,9 +8,18 @@ class ProductController {
     }
 
     create (request, response) {
-        const newProduct = ProductService.create(request.body);
+        try {
+            const newProduct = ProductService.create(request.body)
 
-        response.status(201).json(newProduct);
+            response.status(201).json(newProduct)
+        }
+        catch (error) {
+            const errorMessage = {
+                error: error.message,
+            };
+
+            response.status(400).json(errorMessage);
+        }
     }
 }
 

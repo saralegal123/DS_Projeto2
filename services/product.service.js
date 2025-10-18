@@ -6,6 +6,13 @@ class productService {
     }
 
     create(newProduct) {
+        const existingProduct = productRepository.findByName
+        (newProduct.name);
+        
+        if (existingProduct) {
+            throw new Error ("Produto já cadastrado! >:(")
+        }
+
         return productRepository.create(newProduct);
     }
 }
