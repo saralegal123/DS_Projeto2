@@ -10,7 +10,11 @@ let productsList = [
 
 class ProductRepository {
     findAll(){
+        return productsList;
+    }
 
+    findById(id) {
+        return productsList.find((product) => product.id === Number(id));
     }
 
     findByName(name) {
@@ -26,6 +30,16 @@ class ProductRepository {
         productsList.push(newProduct)
 
         return newProduct
+    }
+
+    delete(id) {
+        const productIndex = productsList.findByIndex((product) => product.id === Number(id));
+
+        if(productIndex === -1) {
+            return false
+        }
+
+        productsList.splice()   
     }
 }
 

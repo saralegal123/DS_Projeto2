@@ -7,6 +7,9 @@ const port = 3000;
 
 server.get("/products", productController.list);
 server.post("/products", productController.create);
+server.delete("/products/:id", productController.delete);
+
+
 
 //rota da api
 server.get("/", (request, response) => {
