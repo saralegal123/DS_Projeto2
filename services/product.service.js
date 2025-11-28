@@ -1,35 +1,37 @@
 const Product = require("../entities/product.entities");
 const productRepository = require("../repositories/product.repository");
 
-class productService {
-    listAll() {
-        productRepository.findAll();
+class ProductServices{
+    listAll(){
+        return productRepository.findAll()
     }
 
-    create(newProduct) {
-        const existingProduct = productRepository.findByName
-        (newProduct.name);
-        
-        if (existingProduct) {
-            throw new Error ("Produto já cadastrado! >:(")
+    create (newProduct){
+        const existingProduct = productRepository.findByName(newProduct.name);
+
+        if(existingProduct){
+            throw new Error("Produto ja Cadastrado")
         }
 
         const productEntity = new Product(newProduct);
 
         return productRepository.create(productEntity);
     }
+    delete(id)
+    {
+        this.findById(id);
+        
+    }
 
-    delete(id) {
+    findById(id){
         const existingProduct = productRepository.findById(id);
 
-        if (!existingProduct) {
-            throw new Error ("Produto não existente no sistema! :o")
+          if(!existingProduct){
+            throw new Error("Produto não existe");
         }
 
-        productRepository.delete(id);
-
-        return;
+        return existingProduct;
     }
 }
 
-module.exports = new productService();
+module.exports = new ProductServices();
