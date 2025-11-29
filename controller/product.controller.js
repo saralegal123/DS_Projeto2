@@ -36,6 +36,20 @@ class ProductController {
             response.status(400).json(errorMessage);
         }
     }
+
+    update(request, response) {
+    try {
+        const productId = request.params.productId;
+        const updatedData = request.body;
+
+        const updatedProduct = ProductService.update(productId, updatedData);
+
+        response.status(200).json(updatedProduct);
+    } catch (error) {
+        response.status(400).json({ error: error.message });
+    }
+}
+
 }
 
 module.exports = new ProductController();

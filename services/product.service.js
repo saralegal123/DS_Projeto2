@@ -32,6 +32,21 @@ class ProductServices{
 
         return existingProduct;
     }
+
+    update(id, newData) {
+    const existingProduct = this.findById(id);
+
+    // atualiza so os campos permitidos
+    const updatedProduct = {
+        ...existingProduct,
+        name: newData.name ?? existingProduct.name,
+        price: newData.price ?? existingProduct.price,
+        quantity: newData.quantity ?? existingProduct.quantity,
+    };
+
+    return productRepository.update(id, updatedProduct);
+}
+
 }
 
 module.exports = new ProductServices();

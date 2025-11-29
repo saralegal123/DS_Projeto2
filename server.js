@@ -1,20 +1,16 @@
 const express = require("express"); 
-const productController = require("./controllers/product.controller");
+const routes = require("./routes/route");
 
 const server = express();
 server.use(express.json()); 
 const port = 3000; 
 
-server.get("/products", productController.list);
-server.post("/products", productController.create);
-server.delete("/products/:id", productController.delete);
+server.use(routes); 
 
- 
-//rota da api
 server.get("/", (request, response) => {
-    response.send("Oi, Sara linda!")
+    response.send("Oi, Sara linda!");
 });
 
 server.listen(port, () => {
-    console.log("Projeto rodando na porta" + port);
+    console.log("Projeto rodando na porta " + port);
 });

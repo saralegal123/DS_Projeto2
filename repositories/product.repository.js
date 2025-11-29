@@ -58,6 +58,18 @@ class ProductRepository{
         productsList.splice(productIndex, 1);
     }
 
+    update(id, updatedProduct) {
+    const productIndex = productsList.findIndex(
+        (product) => product.id === Number(id)
+    );
+
+    if (productIndex === -1) {
+        return null;
+    }
+
+    productsList[productIndex] = updatedProduct;
+    return updatedProduct;
+}
 
 }
 
