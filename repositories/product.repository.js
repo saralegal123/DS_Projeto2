@@ -1,76 +1,71 @@
 let productsList = [
-    {
-        id: 1, 
-        name: "moranguinho",
-        price: 10.00,
-        quantity: 2, 
-    },
+  {
+    id: 1,
+    name: "Morango",
+    price: 10.0,
+    quantity: 4,
+  },
 ];
 
-class ProductRepository{
-    findAll(){
-        return productsList
-    }
+class ProductRepository {
+  findAll() {
+    return productsList;
+  }
 
-    findById(id)
-    {
-        return productsList.find((product) => product.id === Number(id));
-    }
+  findById(id) {
+    return productsList.find((product) => product.id === Number(id));
+  }
 
-    findByName(name) {
-        const product = productsList.find(
-            product => product.name.toLowerCase() === name.toLowerCase
-        );
-        return product;
-    }
+  findByName(name) {
+    const product = productsList.find(
+      (product) => product.name.toLowerCase() === name.toLowerCase()
+    );
 
-    /**
-     *  Cadastra um produto no banco de dados, criando um novo ID unico
-     * 
-     * @param newProduct Os dados do novo produto, incluindo nome, preço e quantidade em estoque
-     *
-     * 
-     * @returns O novo produto cadastrado, incluindo seu ID unico 
-     * 
-     */
+    return product;
+  }
 
-    create(newProduct) {
-        const newId = productsList.length + 1
+  /**
+   * Cadastra um produto no banco de dados, criando um novo ID único
+   *
+   * @param newProduct Os dados do novo produto, incluindo Nome, Preço e Quantidade em Estoque
+   *
+   * @returns O novo produto cadastrado, incluindo seu ID único
+   */
+  create(newProduct) {
+    const newId = productsList.length + 1;
 
-        newProduct.id = newId
-        productsList.push(newProduct)
-        console.log(newProduct)
+    newProduct.id = newId;
+    productsList.push(newProduct);
 
-        return newProduct
-    }
+    return newProduct;
+  }
 
-    delete(id)
-    {
-        const productIndex = productsList.findIndex(
-            (product) => product.id === Number(id)
-        );
-
-        if (productIndex === -1) 
-        {
-         return false;
-        }
-
-        productsList.splice(productIndex, 1);
-    }
-
-    update(id, updatedProduct) {
+  delete(id) {
     const productIndex = productsList.findIndex(
-        (product) => product.id === Number(id)
+      (product) => product.id === Number(id)
     );
 
     if (productIndex === -1) {
-        return null;
+      return false;
     }
 
-    productsList[productIndex] = updatedProduct;
-    return updatedProduct;
+    productsList.splice(productIndex, 1);
+  }
+
+  update(id, updatedValues) {
+    const product = productsList.find((p) => p.id === Number(id));
+
+    if (!product) {
+      return null;
+    }
+
+   
+    product.name = updatedValues.name ?? product.name;
+    product.price = updatedValues.price ?? product.price;
+    product.quantity = updatedValues.quantity ?? product.quantity;
+
+    return product;
+  }
 }
 
-}
-
-module.exports = new ProductRepository();
+module.exports = ProductRepository;

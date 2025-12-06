@@ -1,7 +1,7 @@
 const Product = require("../entities/product.entities");
 const productRepository = require("../repositories/product.repository");
 
-class ProductServices{
+class ProductService{
     listAll(){
         return productRepository.findAll()
     }
@@ -33,20 +33,21 @@ class ProductServices{
         return existingProduct;
     }
 
-    update(id, newData) {
+     update(id, values) {
     const existingProduct = this.findById(id);
 
-    // atualiza so os campos permitidos
-    const updatedProduct = {
-        ...existingProduct,
-        name: newData.name ?? existingProduct.name,
-        price: newData.price ?? existingProduct.price,
-        quantity: newData.quantity ?? existingProduct.quantity,
-    };
+    if (values.name && values.name !== existingProduct.name) {
+      const conflict = this.productRepository.findByName(values.name);
+      if (conflict) {
+        throw new ProductExistsError();
+      }
+    }
+    const updatedProduct = this.productRepository.update(id, values);
 
-    return productRepository.update(id, updatedProduct);
+    return updatedProduct;
+  }
+
 }
 
-}
 
-module.exports = new ProductServices();
+module.exports = ProductService;

@@ -1,55 +1,41 @@
-const req = require("express/lib/request");
-const ProductService = require("../services/product.service");
-
 class ProductController {
-    list (request, response){
-        const products = ProductService.listAll();
-        response.json(products);
-    }
+  constructor(service) {
+    this.productService = service;
+  }
 
-    delete (request, response){
-        try {
-            const productId = request.params.productId
-            ProductService.delete(productId)
+  list(request, response) {
+    const products = this.productService.listAll();
+    response.json(products);
+  }
 
-            response.status(200).json ({message: "Produto removido com sucesso! :D"})
-        } catch (error) {
-            const errorMessage = {
-                error: error.message,
-            };
+  delete(request, response) {
+    const productId = request.params.id;
+    this.productService.delete(productId);
 
-            response.status(400).json(errorMessage);
-        }
-    }
+    response.status(200).json({ message: "Produto removido com sucesso" });
+  }
 
-    create (request, response) {
-        try {
-            const newProduct = ProductService.create(request.body)
+  create(request, response) {
+    const newProduct = this.productService.create(request.body);
 
-            response.status(201).json(newProduct)
-        }
-        catch (error) {
-            const errorMessage = {
-                error: error.message,
-            };
+    response.status(201).json(newProduct);
+  }
+  update(request, response) {
+  try {
+    const { id } = request.params;
+    const { name, price, quantity } = request.body;
 
-            response.status(400).json(errorMessage);
-        }
-    }
+    const updatedProduct = this.productService.update(id, {
+      name,
+      price,
+      quantity,
+    });
 
-    update(request, response) {
-    try {
-        const productId = request.params.productId;
-        const updatedData = request.body;
-
-        const updatedProduct = ProductService.update(productId, updatedData);
-
-        response.status(200).json(updatedProduct);
-    } catch (error) {
-        response.status(400).json({ error: error.message });
-    }
+    return response.status(200).json(updatedProduct);
+  } catch (error) {
+    return response.status(400).json({ error: error.message });
+  }
+}
 }
 
-}
-
-module.exports = new ProductController();
+module.exports = ProductController;
